@@ -114,79 +114,93 @@ from pathlib import Path
 # upper 75 percentile, all neccessary features
 # normalized pixels and features
 
-our_path = Path("/Users/yujiezhang/Documents/Research/Processed data/PROCESSED/PROCESSED screening_colon")
-for files in our_path.iterdir():
-        if files.name != '.DS_Store':
-                print(files)
-                df = pd.read_csv(files, index_col= False)
-                if 'X' in df.columns:
-                        df = df.drop(columns = ['X', 'Y', 'Z'])
-                        df.sort_values(by=['coord', 'qulaity'], ascending=[False, False], inplace=True)
-                        df = df.groupby('coord').median().reset_index()
-                        if 'colon_BkgNormal' in df.columns:
-# Calculate the average of 'sum' values for rows meeting the condition using a generator expression
+# our_path = Path("/Users/yujiezhang/Documents/Research/Processed data/PROCESSED/PROCESSED screening_colon")
+# for files in our_path.iterdir():
+#         if files.name != '.DS_Store':
+#                 print(files)
+#                 df = pd.read_csv(files, index_col= False)
+#                 if 'X' in df.columns:
+#                         df = df.drop(columns = ['X', 'Y', 'Z'])
+#                         df.sort_values(by=['coord', 'qulaity'], ascending=[False, False], inplace=True)
+#                         df = df.groupby('coord').median().reset_index()
+#                         if 'colon_BkgNormal' in df.columns:
+# # Calculate the average of 'sum' values for rows meeting the condition using a generator expression
                                 
-                                avg = df.loc[(df['Erythema'] == 0) & (df['Blood'] == 0) & (df['colon_UlcerMild'] == 0)
-                                & (df['colon_UlcerModSevere'] == 0) & (df['colon_Erythema'] == 0) & (df['colon_Intrument'] == 0),
-                                        ['colon_BkgNormal', 'colon_Poor_Quality']].sum(axis=1).mean()
-                                df['colon_BkgNormal'] = (df['colon_BkgNormal'] / avg).round(6)
-                                df['colon_Poor_Quality'] = (df['colon_Poor_Quality'] / avg).round(6)
-                                df['Erythema'] = (df['Erythema'] / avg).round(6)
-                                df['Blood'] = (df['Blood'] / avg).round(6)
-                                df['colon_UlcerMild'] = (df['colon_UlcerMild'] / avg).round(6)
-                                df['colon_UlcerModSevere'] = (df['colon_UlcerModSevere'] / avg).round(6)
-                                df['colon_Erythema'] = (df['colon_Erythema'] / avg).round(6)
-                                df['colon_Intrument'] = (df['colon_Intrument'] / avg).round(6)
+#                                 avg = df.loc[(df['Erythema'] == 0) & (df['Blood'] == 0) & (df['colon_UlcerMild'] == 0)
+#                                 & (df['colon_UlcerModSevere'] == 0) & (df['colon_Erythema'] == 0) & (df['colon_Intrument'] == 0),
+#                                         ['colon_BkgNormal', 'colon_Poor_Quality']].sum(axis=1).mean()
+#                                 df['colon_BkgNormal'] = (df['colon_BkgNormal'] / avg).round(6)
+#                                 df['colon_Poor_Quality'] = (df['colon_Poor_Quality'] / avg).round(6)
+#                                 df['Erythema'] = (df['Erythema'] / avg).round(6)
+#                                 df['Blood'] = (df['Blood'] / avg).round(6)
+#                                 df['colon_UlcerMild'] = (df['colon_UlcerMild'] / avg).round(6)
+#                                 df['colon_UlcerModSevere'] = (df['colon_UlcerModSevere'] / avg).round(6)
+#                                 df['colon_Erythema'] = (df['colon_Erythema'] / avg).round(6)
+#                                 df['colon_Intrument'] = (df['colon_Intrument'] / avg).round(6)
 
-                                df = df.drop(columns= ['Unnamed: 0'])
-                df.to_csv("/Users/yujiezhang/Documents/Research/Processed data/PRO/PRO screening_colon/" + str(files.stem) + '.csv', index = True)
+#                                 df = df.drop(columns= ['Unnamed: 0'])
+#                 df.to_csv("/Users/yujiezhang/Documents/Research/Processed data/PRO/PRO screening_colon/" + str(files.stem) + '.csv', index = True)
 
 ###################################################################################################################################################
 ###################################################################################################################################################
 
 # Dividing coordinates into 200 points
-# Ratio 4:10:5:6
+
+# our_path = Path("/Users/yujiezhang/Documents/Research/Processed data/PRO/PRO screening_colon")
+
+# for file in our_path.iterdir():
+#     if file.name != '.DS_Store':
+#         print(file)
+
+#     df = pd.read_csv(file, encoding='latin-1')
+#     total_rows = len(df)
+#     rows_per_iteration = total_rows // 200
+
+#     new_df = pd.DataFrame()
+#     for i in range(200):
+#         start = i * rows_per_iteration
+#         end = (i + 1) * rows_per_iteration
+#         temp_df = df.iloc[start:end]
+#         temp_median = temp_df.median().to_frame().T
+#         new_df = pd.concat([new_df, temp_median], ignore_index=True)
+
+#     new_df.to_csv('/Users/yujiezhang/Documents/Research/Processed data/200/' + str(file.stem) + '.csv', index=True)
 
 
-our_path = Path("/Users/yujiezhang/Documents/Research/Processed data/PRO/PRO screening_colon")
+# our_path = Path("/Users/yujiezhang/Documents/Research/Processed data/200")
 
-for file in our_path.iterdir():
-    if file.name != '.DS_Store':
-        print(file)
+# for file in our_path.iterdir():
+#     if (file.name != '.DS_Store'):
+#         print(file)
+#         df = pd.read_csv(file, index_col= False)
+#         if(('colon_Intrument' in df.columns) & ('biopsy' in df.columns) & ('Unnamed: 0' in df.columns) & ('Erythema' in df.columns) & ('index_col' in df.columns) & ('Unnamed: 0' in df.columns) & ('Unnamed: 0.1' in df.columns)):
+#                 df = df.drop(columns= ['colon_Intrument', 'biopsy', 'Unnamed: 0', 'Unnamed: 0.1', 'Erythema', 'index_col'])
+#                 # df = df.drop(columns= ['Unnamed: 0', 'Unnamed: 0.1'])
+#         if 'Unnamed: 0.2' in df.columns:
+#                 df = df.drop(columns= ['Unnamed: 0.2'])
+        
+  
+#         df.to_csv('/Users/yujiezhang/Documents/Research/Processed data/200/' + str(file.stem) + '.csv', index= True, index_label= 'index')
 
-    df = pd.read_csv(file, encoding='latin-1')
-    total_rows = len(df)
-    rows_per_iteration = total_rows // 200
-
-    new_df = pd.DataFrame()
-    for i in range(200):
-        start = i * rows_per_iteration
-        end = (i + 1) * rows_per_iteration
-        temp_df = df.iloc[start:end]
-        temp_median = temp_df.median().to_frame().T
-        new_df = pd.concat([new_df, temp_median], ignore_index=True)
-
-    new_df.to_csv('/Users/yujiezhang/Documents/Research/Processed data/200/' + str(file.stem) + '.csv', index=True)
+###################################################################################################################################################
+###################################################################################################################################################
 
 
-
-
-our_path = Path("/Users/yujiezhang/Documents/Research/Processed data/200")
+our_path = Path("/Users/yujiezhang/Documents/Research/Processed data/200/")
 
 for file in our_path.iterdir():
     if (file.name != '.DS_Store'):
         print(file)
-        df = pd.read_csv(file, index_col= False)
-        if(('colon_Intrument' in df.columns) & ('biopsy' in df.columns) & ('Unnamed: 0' in df.columns) & ('Erythema' in df.columns) & ('index_col' in df.columns) & ('Unnamed: 0' in df.columns) & ('Unnamed: 0.1' in df.columns)):
-                df = df.drop(columns= ['colon_Intrument', 'biopsy', 'Unnamed: 0', 'Unnamed: 0.1', 'Erythema', 'index_col'])
-                # df = df.drop(columns= ['Unnamed: 0', 'Unnamed: 0.1'])
-        if 'Unnamed: 0.2' in df.columns:
-                df = df.drop(columns= ['Unnamed: 0.2'])
-        
-  
-        df.to_csv('/Users/yujiezhang/Documents/Research/Processed data/200/' + str(file.stem) + '.csv', index= True, index_label= 'index')
+        # df = pd.read_csv(file, index_col= False)
+        df = pd.read_csv(file, encoding='latin-1')
+        total_rows = len(df)
+        rows_per_iteration = total_rows // 20
 
-
-
-# # SORT COORDINATES BY MEDIAN NOT FIRST VALUE
-# # LINE 125
+        new_df = pd.DataFrame()
+        for i in range(20):
+                start = i * rows_per_iteration
+                end = (i + 1) * rows_per_iteration
+                temp_df = df.iloc[start:end]
+                temp_median = temp_df.median().to_frame().T
+                new_df = pd.concat([new_df, temp_median], ignore_index=True)
+        new_df.to_csv('/Users/yujiezhang/Documents/Research/Processed data/20/' + str(file.stem) + '.csv', index=True)
